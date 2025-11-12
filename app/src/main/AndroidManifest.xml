@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Lab1_PH46469">
         <activity
+            android:name=".ProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CategoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
