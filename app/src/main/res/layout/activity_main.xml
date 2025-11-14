@@ -5,13 +5,20 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btnCategory"
+        android:id="@+id/btnToCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Xem Danh Mục Mèo" />
+        android:text="Category" />
+
+    <Button
+        android:id="@+id/btnToProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product" />
 
 
 </LinearLayout>

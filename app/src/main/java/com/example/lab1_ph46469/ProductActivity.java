@@ -1,9 +1,7 @@
 package com.example.lab1_ph46469;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
@@ -35,9 +33,23 @@ public class ProductActivity extends AppCompatActivity {
         productDAO = new ProductDAO(this);
         catDAO = new CatDAO(this);
 
+        addSampleData();
+
         loadData();
 
         btnAddProduct.setOnClickListener(v -> showAddDialog());
+    }
+
+    private void addSampleData() {
+        if (catDAO.getAllCats().isEmpty()) {
+            catDAO.insertCat(new CatDTO(1, "Mèo Ba Tư"));
+            catDAO.insertCat(new CatDTO(2, "Mèo Anh Lông Ngắn"));
+        }
+
+        if (productDAO.getAllProducts().isEmpty()) {
+            productDAO.insertProduct(new ProductDTO(1, "Mèo Ba Tư con", 1000.0, 1));
+            productDAO.insertProduct(new ProductDTO(2, "Mèo Anh Lông Ngắn con", 1200.0, 2));
+        }
     }
 
     private void loadData() {
@@ -62,13 +74,30 @@ public class ProductActivity extends AppCompatActivity {
                 .setTitle("Thêm sản phẩm mới")
                 .setView(dialogView)
                 .setPositiveButton("Thêm", (dialog, which) -> {
-                    String name = edName.getText().toString();
-                    double price = Double.parseDouble(edPrice.getText().toString());
-                    CatDTO selectedCat = (CatDTO) spCat.getSelectedItem();
+                    String name = edName.getText().toString().trim();
+                    String priceStr = edPrice.getText().toString().trim();
 
-                    ProductDTO p = new ProductDTO(0, name, price, selectedCat.getId());
-                    productDAO.insertProduct(p);
-                    loadData();
+                    if (name.isEmpty() || priceStr.isEmpty()) {
+                        Toast.makeText(this, "Vui lòng không để trống thông tin", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    try {
+                        double price = Double.parseDouble(priceStr);
+                        CatDTO selectedCat = (CatDTO) spCat.getSelectedItem();
+
+                        if (selectedCat == null) {
+                            Toast.makeText(this, "Vui lòng chọn một danh mục", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        ProductDTO p = new ProductDTO(0, name, price, selectedCat.getId());
+                        productDAO.insertProduct(p);
+                        loadData();
+                        Toast.makeText(this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(this, "Giá phải là một con số", Toast.LENGTH_SHORT).show();
+                    }
                 })
                 .setNegativeButton("Hủy", null)
                 .show();

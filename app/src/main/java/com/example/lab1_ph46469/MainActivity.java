@@ -23,9 +23,16 @@ public class MainActivity extends AppCompatActivity {
             return insets;
 
         });
-        Button btnCategory = findViewById(R.id.btnCategory);
-        btnCategory.setOnClickListener(v -> {
+        Button btnToCategory = findViewById(R.id.btnToCategory);
+        Button btnToProduct = findViewById(R.id.btnToProduct);
+
+        btnToCategory.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, CategoryActivity.class);
+            startActivity(i);
+        });
+
+        btnToProduct.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, ProductActivity.class);
             startActivity(i);
         });
     }
